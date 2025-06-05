@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Car Cafe - Car Wash</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #f97316;
+      --bg: #0f0f0f;
+      --text: #e5e7eb;
+    }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', sans-serif;
+    }
+    body {
+      background: linear-gradient(to bottom right, #000000, #111827, #000000);
+      color: var(--text);
+    }
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+    header {
+      background: rgba(0, 0, 0, 0.95);
+      border-bottom: 1px solid #374151;
+      padding: 1rem 0;
+      height: 70px;
+      position: fixed;
+      width: 100%;
+      top: 0;
+      left: 0;
+      z-index: 1000;
+      transition: all 0.3s ease;
+    }
+    header.scrolled {
+      background: rgba(0, 0, 0, 0.98);
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    }
+    header .container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 100%;
+    }
+    header img {
+      width: 40px;
+      height: 40px;
+    }
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .logo-text {
+      font-size: 1.5rem;
+      font-weight: 700;
+      font-family: 'Poppins', sans-serif;
+      letter-spacing: -0.5px;
+    }
+    .logo-text span {
+      background: linear-gradient(to right, #f97316, #ea580c);
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 2.5rem;
+    }
+    header nav {
+      display: flex;
+      align-items: center;
+      gap: 2.5rem;
+    }
+    header nav a {
+      color: #d1d5db;
+      text-decoration: none;
+      font-size: 0.95rem;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      position: relative;
+    }
+    header nav a::after {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--primary);
+      transition: width 0.3s ease;
+    }
+    header nav a:hover::after {
+      width: 100%;
+    }
+    header nav a:hover {
+      color: #ffffff;
+    }
+    .login-btn {
+      padding: 0.6rem 1.5rem;
+      background: linear-gradient(to right, #f97316, #ea580c);
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: all 0.3s ease;
+    }
+    .login-btn:hover {
+      opacity: 0.9;
+      transform: translateY(-1px);
+      box-shadow: 0 5px 15px rgba(249, 115, 22, 0.2);
+    }
+    .hero {
+        height: 100vh;
+      padding: 4rem 2rem;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .hero-text {
+      max-width: 600px;
+    }
+    .hero h1 {
+      font-size: 3rem;
+      background: linear-gradient(to right, #fff, #d1d5db);
+      -webkit-background-clip: text;
+      color: transparent;
+      font-weight: 700;
+    }
+    .hero h1 span {
+      background: linear-gradient(to right, #f97316, #ea580c);
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+    .hero p {
+      margin: 1rem 0;
+      font-size: 1.2rem;
+      color: #d1d5db;
+    }
+    .hero .buttons button {
+      padding: 0.75rem 1.5rem;
+      border: none;
+      cursor: pointer;
+      font-size: 1rem;
+      border-radius: 5px;
+      margin-right: 1rem;
+    }
+    .btn-primary {
+      background: linear-gradient(to right, #f97316, #ea580c);
+      color: white;
+    }
+    .btn-outline {
+      border: 1px solid #f97316;
+      color: #f97316;
+      background: transparent;
+    }
+    .services, .testimonials {
+      padding: 4rem 3rem;
+      text-align: center;
+    }
+    .services h2, .testimonials h2 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+      background: linear-gradient(to right, #fff, #d1d5db);
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+    .card {
+      background: #1f2937;
+      padding: 2rem;
+      border-radius: 10px;
+      border: 1px solid #374151;
+    }
+    .card i {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+      color: var(--primary);
+    }
+    .card h3 {
+      margin-bottom: 0.5rem;
+    }
+    .testimonial {
+      background: #1f2937;
+      padding: 2rem;
+      border-radius: 10px;
+      text-align: left;
+    }
+    .testimonial .stars i {
+      color: var(--primary);
+    }
+    .testimonial .user {
+      display: flex;
+      align-items: center;
+      margin-top: 1rem;
+    }
+    .testimonial .user div {
+      margin-left: 1rem;
+    }
+    .hamburger {
+      display: none;
+      cursor: pointer;
+      border: none;
+      background: none;
+      padding: 0.5rem;
+      z-index: 100;
+    }
+    .hamburger span {
+      display: block;
+      width: 25px;
+      height: 2px;
+      background: #fff;
+      margin: 5px 0;
+      transition: all 0.3s ease;
+      border-radius: 2px;
+    }
+    @media (max-width: 768px) {
+      .hamburger {
+        display: block;
+      }
+      header nav {
+        position: fixed;
+        top: 70px;
+        left: 0;
+        right: 0;
+        background: rgba(0, 0, 0, 0.98);
+        padding: 1rem 0;
+        flex-direction: column;
+        gap: 0;
+        transform: translateY(-100%);
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+      }
+      header nav.active {
+        transform: translateY(0);
+        opacity: 1;
+        visibility: visible;
+      }
+      header nav a {
+        padding: 1rem 2rem;
+        width: 100%;
+        text-align: left;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      }
+      header nav a::after {
+        display: none;
+      }
+      header nav a:hover {
+        background: rgba(249, 115, 22, 0.1);
+      }
+      .login-btn {
+        margin: 1rem 2rem;
+        width: calc(100% - 4rem);
+      }
+    }
+    @media (max-width: 480px) {
+      .logo-text {
+        font-size: 1.2rem;
+      }
+      header img {
+        width: 35px;
+        height: 35px;
+      }
+    }
+  </style>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <div class="logo">
+        <img src="images/logo.png" alt="Car Cafe Logo">
+        <div class="logo-text">Car<span>Cafe</span></div>
+      </div>
+      <div class="nav-links">
+        <nav>
+          <a href="#services">Services</a>
+          <a href="#pricing">Pricing</a>
+          <a href="#about">About</a>
+          <a href="#contact">Contact</a>
+        </nav>
+        <a href="login.html" class="login-btn">Login</a>
+      </div>
+      <button class="hamburger" onclick="toggleMenu()">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </header>
+
+  <section class="hero container">
+    <div class="hero-text">
+      <h1>Your Car Deserves the <span>Best Wash</span></h1>
+      <p>Professional car washing and detailing services that make your vehicle shine like new. Fast, reliable, and eco-friendly.</p>
+      <div class="buttons">
+        <button class="btn-primary">Book Your Wash</button>
+        <button class="btn-outline">View Services</button>
+      </div>
+    </div>
+    <div class="hero-image">
+      <img src="images/logo.png" alt="Car Wash" width="500">
+    </div>
+  </section>
+
+  <section class="services container" id="services">
+    <h2>Our Premium Services</h2>
+    <p>From basic washes to premium detailing, we offer comprehensive car care services</p>
+    <div class="card-grid">
+      <div class="card">
+        <i class="fas fa-tint"></i>
+        <h3>Basic Wash</h3>
+        <p>Exterior hand wash, wheel cleaning, towel dry, tire shine</p>
+      </div>
+      <div class="card">
+        <i class="fas fa-shield-alt"></i>
+        <h3>Premium Wash</h3>
+        <p>Everything in Basic, interior vacuuming, dashboard and window cleaning</p>
+      </div>
+      <div class="card">
+        <i class="fas fa-star"></i>
+        <h3>Deluxe Detail</h3>
+        <p>Clay bar, wax, leather conditioning + Premium Wash</p>
+      </div>
+      <div class="card">
+        <i class="fas fa-users"></i>
+        <h3>Fleet Service</h3>
+        <p>Bulk pricing, scheduled service, on-site options</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="testimonials container">
+    <h2>What Our Customers Say</h2>
+    <p>Don't just take our word for it - hear from our satisfied customers</p>
+    <div class="card-grid">
+      <div class="testimonial">
+        <div class="stars">
+          <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+        </div>
+        <p>"Amazing service! My car looks brand new every time. The staff is professional and the pricing is very reasonable."</p>
+        <div class="user">
+          <div class="avatar" style="background: var(--primary); color: white; padding: 0.5rem; border-radius: 50%;">S</div>
+          <div>
+            <strong>Sarah Johnson</strong>
+            <p>Regular Customer</p>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial">
+        <div class="stars">
+          <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+        </div>
+        <p>"Fast, efficient, and eco-friendly. I love that they use biodegradable products. Highly recommend!"</p>
+        <div class="user">
+          <div class="avatar" style="background: var(--primary); color: white; padding: 0.5rem; border-radius: 50%;">M</div>
+          <div>
+            <strong>Mike Chen</strong>
+            <p>Business Owner</p>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial">
+        <div class="stars">
+          <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+        </div>
+        <p>"The deluxe detail package is worth every penny. My car interior looks and smells fantastic!"</p>
+        <div class="user">
+          <div class="avatar" style="background: var(--primary); color: white; padding: 0.5rem; border-radius: 50%;">E</div>
+          <div>
+            <strong>Emily Rodriguez</strong>
+            <p>Happy Customer</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- Pricing Section -->
+<section id="pricing" class="py-20 bg-gradient-to-b from-black via-gray-900 to-black relative">
+    <div class="absolute inset-0 bg-gradient-to-r from-transparent via-orange-500/5 to-transparent"></div>
+    <div class="relative z-10 px-4 lg:px-6 max-w-7xl mx-auto">
+      <div class="text-center mb-16">
+        <h2 class="text-4xl font-bold bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent mb-4">
+          Simple, Transparent Pricing
+        </h2>
+        <p class="text-xl text-gray-300">Choose the perfect package for your car care needs</p>
+      </div>
+      <div class="grid md:grid-cols-3 gap-8">
+        <!-- Basic -->
+        <div class="border border-gray-700/50 hover:border-orange-500/50 transition-all duration-300 bg-gradient-to-br from-gray-800/80 to-gray-900/80 backdrop-blur-sm text-white shadow-xl hover:shadow-2xl p-6 rounded-xl">
+          <div class="text-center">
+            <h3 class="text-2xl">Basic Wash</h3>
+            <div class="text-4xl font-bold bg-gradient-to-r from-orange-400 to-orange-600 bg-clip-text text-transparent mt-4">$15</div>
+            <p class="text-gray-300">Perfect for regular maintenance</p>
+          </div>
+          <ul class="space-y-3 mt-6">
+            <li class="flex items-center"><span class="w-2 h-2 bg-gradient-to-r from-orange-400 to-orange-600 rounded-full mr-3"></span>Exterior hand wash</li>
+            <li class="flex items-center"><span class="w-2 h-2 bg-gradient-to-r from-orange-400 to-orange-600 rounded-full mr-3"></span>Wheel cleaning</li>
+            <li class="flex items-center"><span class="w-2 h-2 bg-gradient-to-r from-orange-400 to-orange-600 rounded-full mr-3"></span>Towel dry</li>
+            <li class="flex items-center"><span class="w-2 h-2 bg-gradient-to-r from-orange-400 to-orange-600 rounded-full mr-3"></span>Tire shine</li>
+          </ul>
+          <button class="w-full mt-6 py-2 bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 shadow-lg shadow-orange-500/30 rounded-md transition-all">Choose Basic</button>
+        </div>
+  
+        <!-- Premium -->
+        <div class="relative border-2 border-orange-500/70 bg-gradient-to-br from-gray-800/90 to-gray-900/90 backdrop-blur-sm text-white shadow-2xl shadow-orange-500/20 p-6 rounded-xl">
+          <div class="absolute -top-3 left-1/2 transform -translate-x-1/2">
+            <span class="px-4 py-1 bg-gradient-to-r from-orange-500 to-orange-600 text-white text-sm rounded-full shadow-lg">Most Popular</span>
+          </div>
+          <div class="text-center">
+            <h3 class="text-2xl">Premium Wash</h3>
+            <div class="text-4xl font-bold bg-gradient-to-r from-orange-400 to-orange-600 bg-clip-text text-transparent mt-4">$25</div>
+            <p class="text-gray-300">Complete interior & exterior</p>
+          </div>
+          <ul class="space-y-3 mt-6">
+            <li class="flex items-center"><span class="w-2 h-2 bg-gradient-to-r from-orange-400 to-orange-600 rounded-full mr-3"></span>Everything in Basic</li>
+            <li class="flex items-center"><span class="w-2 h-2 bg-gradient-to-r from-orange-400 to-orange-600 rounded-full mr-3"></span>Interior vacuuming</li>
+            <li class="flex items-center"><span class="w-2 h-2 bg-gradient-to-r from-orange-400 to-orange-600 rounded-full mr-3"></span>Dashboard cleaning</li>
+            <li class="flex items-center"><span class="w-2 h-2 bg-gradient-to-r from-orange-400 to-orange-600 rounded-full mr-3"></span>Window cleaning</li>
+          </ul>
+          <button class="w-full mt-6 py-2 bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 shadow-lg shadow-orange-500/30 rounded-md transition-all">Choose Premium</button>
+        </div>
+  
+        <!-- Deluxe -->
+        <div class="border border-gray-700/50 hover:border-orange-500/50 transition-all duration-300 bg-gradient-to-br from-gray-800/80 to-gray-900/80 backdrop-blur-sm text-white shadow-xl hover:shadow-2xl p-6 rounded-xl">
+          <div class="text-center">
+            <h3 class="text-2xl">Deluxe Detail</h3>
+            <div class="text-4xl font-bold bg-gradient-to-r from-orange-400 to-orange-600 bg-clip-text text-transparent mt-4">$45</div>
+            <p class="text-gray-300">Professional detailing service</p>
+          </div>
+          <ul class="space-y-3 mt-6">
+            <li class="flex items-center"><span class="w-2 h-2 bg-gradient-to-r from-orange-400 to-orange-600 rounded-full mr-3"></span>Everything in Premium</li>
+            <li class="flex items-center"><span class="w-2 h-2 bg-gradient-to-r from-orange-400 to-orange-600 rounded-full mr-3"></span>Clay bar treatment</li>
+            <li class="flex items-center"><span class="w-2 h-2 bg-gradient-to-r from-orange-400 to-orange-600 rounded-full mr-3"></span>Wax application</li>
+            <li class="flex items-center"><span class="w-2 h-2 bg-gradient-to-r from-orange-400 to-orange-600 rounded-full mr-3"></span>Leather conditioning</li>
+          </ul>
+          <button class="w-full mt-6 py-2 bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 shadow-lg shadow-orange-500/30 rounded-md transition-all">Choose Deluxe</button>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <!-- About Section -->
+  <section id="about" class="py-20 bg-gradient-to-b from-black via-gray-900 to-black relative">
+    <div class="absolute inset-0 bg-gradient-to-r from-transparent via-orange-500/5 to-transparent"></div>
+    <div class="relative z-10 px-4 lg:px-6 max-w-7xl mx-auto">
+      <div class="text-center mb-16">
+        <h2 class="text-4xl font-bold bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent mb-4">
+          About CarCafe
+        </h2>
+        <p class="text-xl text-gray-300">Your Trusted Partner in Car Care Excellence</p>
+      </div>
+      
+      <div class="grid md:grid-cols-2 gap-12 items-center">
+        <div class="space-y-6">
+          <div class="bg-gradient-to-br from-gray-800/80 to-gray-900/80 p-6 rounded-xl border border-gray-700/50">
+            <h3 class="text-2xl font-semibold text-white mb-3">Our Story</h3>
+            <p class="text-gray-300">Founded in 2020, CarCafe has grown from a small local car wash to a premium car care destination. We combine traditional car washing expertise with modern technology to deliver exceptional results.</p>
+          </div>
+          
+          <div class="bg-gradient-to-br from-gray-800/80 to-gray-900/80 p-6 rounded-xl border border-gray-700/50">
+            <h3 class="text-2xl font-semibold text-white mb-3">Our Mission</h3>
+            <p class="text-gray-300">To provide outstanding car care services that exceed customer expectations, using eco-friendly products and innovative techniques while maintaining affordable prices.</p>
+          </div>
+          
+          <div class="bg-gradient-to-br from-gray-800/80 to-gray-900/80 p-6 rounded-xl border border-gray-700/50">
+            <h3 class="text-2xl font-semibold text-white mb-3">Why Choose Us</h3>
+            <ul class="text-gray-300 space-y-2">
+              <li class="flex items-center"><span class="w-2 h-2 bg-orange-500 rounded-full mr-3"></span>Professional and experienced staff</li>
+              <li class="flex items-center"><span class="w-2 h-2 bg-orange-500 rounded-full mr-3"></span>Eco-friendly products and methods</li>
+              <li class="flex items-center"><span class="w-2 h-2 bg-orange-500 rounded-full mr-3"></span>State-of-the-art equipment</li>
+              <li class="flex items-center"><span class="w-2 h-2 bg-orange-500 rounded-full mr-3"></span>Satisfaction guaranteed</li>
+            </ul>
+          </div>
+        </div>
+        
+        <div class="grid grid-cols-2 gap-6">
+          <div class="space-y-6">
+            <div class="bg-gradient-to-br from-orange-500 to-orange-600 p-6 rounded-xl text-white text-center">
+              <h4 class="text-3xl font-bold mb-2">5000+</h4>
+              <p>Happy Customers</p>
+            </div>
+            <div class="bg-gradient-to-br from-gray-800 to-gray-900 p-6 rounded-xl text-white text-center border border-orange-500/30">
+              <h4 class="text-3xl font-bold mb-2">15+</h4>
+              <p>Expert Staff</p>
+            </div>
+          </div>
+          <div class="space-y-6 mt-12">
+            <div class="bg-gradient-to-br from-gray-800 to-gray-900 p-6 rounded-xl text-white text-center border border-orange-500/30">
+              <h4 class="text-3xl font-bold mb-2">24/7</h4>
+              <p>Support</p>
+            </div>
+            <div class="bg-gradient-to-br from-orange-500 to-orange-600 p-6 rounded-xl text-white text-center">
+              <h4 class="text-3xl font-bold mb-2">100%</h4>
+              <p>Satisfaction</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <section id="contact" class="py-20 bg-gradient-to-b from-gray-900 to-black relative">
+    <div class="absolute inset-0 bg-gradient-to-r from-transparent via-orange-500/5 to-transparent"></div>
+    <div class="relative z-10 px-4 lg:px-6 max-w-7xl mx-auto">
+      <div class="text-center mb-16">
+        <h2 class="text-4xl font-bold bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent mb-4">
+          Get In Touch
+        </h2>
+        <p class="text-xl text-gray-300">We'd love to hear from you</p>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-12">
+        <div class="space-y-8">
+          <div class="bg-gradient-to-br from-gray-800/80 to-gray-900/80 p-6 rounded-xl border border-gray-700/50">
+            <h3 class="text-2xl font-semibold text-white mb-6">Contact Information</h3>
+            <div class="space-y-4">
+              <div class="flex items-center space-x-4 text-gray-300">
+                <div class="w-12 h-12 bg-orange-500/10 rounded-full flex items-center justify-center">
+                  <i class="fas fa-map-marker-alt text-orange-500 text-xl"></i>
+                </div>
+                <div>
+                  <h4 class="font-semibold">Address</h4>
+                  <p>123 Clean St, Wash City, ST 12345</p>
+                </div>
+              </div>
+              
+              <div class="flex items-center space-x-4 text-gray-300">
+                <div class="w-12 h-12 bg-orange-500/10 rounded-full flex items-center justify-center">
+                  <i class="fas fa-phone text-orange-500 text-xl"></i>
+                </div>
+                <div>
+                  <h4 class="font-semibold">Phone</h4>
+                  <p>(555) 123-WASH</p>
+                </div>
+              </div>
+              
+              <div class="flex items-center space-x-4 text-gray-300">
+                <div class="w-12 h-12 bg-orange-500/10 rounded-full flex items-center justify-center">
+                  <i class="fas fa-envelope text-orange-500 text-xl"></i>
+                </div>
+                <div>
+                  <h4 class="font-semibold">Email</h4>
+                  <p>info@carcafe.com</p>
+                </div>
+              </div>
+              
+              <div class="flex items-center space-x-4 text-gray-300">
+                <div class="w-12 h-12 bg-orange-500/10 rounded-full flex items-center justify-center">
+                  <i class="fas fa-clock text-orange-500 text-xl"></i>
+                </div>
+                <div>
+                  <h4 class="font-semibold">Working Hours</h4>
+                  <p>Mon-Sat: 8:00 AM - 8:00 PM</p>
+                  <p>Sunday: 9:00 AM - 6:00 PM</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-gradient-to-br from-gray-800/80 to-gray-900/80 p-6 rounded-xl border border-gray-700/50">
+            <h3 class="text-2xl font-semibold text-white mb-4">Follow Us</h3>
+            <div class="flex space-x-4">
+              <a href="#" class="w-10 h-10 bg-orange-500/10 rounded-full flex items-center justify-center text-orange-500 hover:bg-orange-500 hover:text-white transition-all">
+                <i class="fab fa-facebook-f"></i>
+              </a>
+              <a href="#" class="w-10 h-10 bg-orange-500/10 rounded-full flex items-center justify-center text-orange-500 hover:bg-orange-500 hover:text-white transition-all">
+                <i class="fab fa-twitter"></i>
+              </a>
+              <a href="#" class="w-10 h-10 bg-orange-500/10 rounded-full flex items-center justify-center text-orange-500 hover:bg-orange-500 hover:text-white transition-all">
+                <i class="fab fa-instagram"></i>
+              </a>
+              <a href="#" class="w-10 h-10 bg-orange-500/10 rounded-full flex items-center justify-center text-orange-500 hover:bg-orange-500 hover:text-white transition-all">
+                <i class="fab fa-linkedin-in"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-gradient-to-br from-gray-800/80 to-gray-900/80 p-6 rounded-xl border border-gray-700/50">
+          <h3 class="text-2xl font-semibold text-white mb-6">Send us a Message</h3>
+          <form class="space-y-4">
+            <div class="grid md:grid-cols-2 gap-4">
+              <div>
+                <label class="block text-gray-300 mb-2">First Name</label>
+                <input type="text" class="w-full px-4 py-2 bg-gray-900/50 border border-gray-700 rounded-lg focus:outline-none focus:border-orange-500 text-white" required>
+              </div>
+              <div>
+                <label class="block text-gray-300 mb-2">Last Name</label>
+                <input type="text" class="w-full px-4 py-2 bg-gray-900/50 border border-gray-700 rounded-lg focus:outline-none focus:border-orange-500 text-white" required>
+              </div>
+            </div>
+            
+            <div>
+              <label class="block text-gray-300 mb-2">Email</label>
+              <input type="email" class="w-full px-4 py-2 bg-gray-900/50 border border-gray-700 rounded-lg focus:outline-none focus:border-orange-500 text-white" required>
+            </div>
+            
+            <div>
+              <label class="block text-gray-300 mb-2">Phone</label>
+              <input type="tel" class="w-full px-4 py-2 bg-gray-900/50 border border-gray-700 rounded-lg focus:outline-none focus:border-orange-500 text-white" required>
+            </div>
+            
+            <div>
+              <label class="block text-gray-300 mb-2">Message</label>
+              <textarea rows="4" class="w-full px-4 py-2 bg-gray-900/50 border border-gray-700 rounded-lg focus:outline-none focus:border-orange-500 text-white" required></textarea>
+            </div>
+            
+            <button type="submit" class="w-full py-3 bg-gradient-to-r from-orange-500 to-orange-600 text-white rounded-lg hover:from-orange-600 hover:to-orange-700 transition-all">
+              Send Message
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Final CTA -->
+  <section class="py-20 bg-gradient-to-r from-orange-500 via-orange-600 to-orange-500 relative overflow-hidden">
+    <div class="absolute inset-0 bg-gradient-to-br from-black/20 via-transparent to-black/20"></div>
+    <div class="relative z-10 px-4 lg:px-6 text-center max-w-3xl mx-auto">
+      <h2 class="text-4xl font-bold text-white mb-6 drop-shadow-lg">Ready to Give Your Car the Treatment It Deserves?</h2>
+      <p class="text-xl text-orange-100 mb-8 drop-shadow-md">Book your appointment today and experience the AutoSplash difference. Your car will thank you!</p>
+      <div class="flex flex-col sm:flex-row gap-4 justify-center">
+        <button class="px-6 py-3 bg-white text-orange-600 hover:bg-gray-100 shadow-xl rounded transition">Book Appointment</button>
+        <button class="px-6 py-3 border border-white text-white hover:bg-white hover:text-orange-600 backdrop-blur-sm shadow-lg rounded transition">Call Us Now</button>
+      </div>
+      <p class="text-orange-100 mt-6 drop-shadow-md">Call us at (555) 123-WASH or book online 24/7</p>
+    </div>
+  </section>
+  
+  <!-- Footer -->
+  <footer class="bg-gradient-to-b from-gray-900 to-black text-white py-12 border-t border-gray-800">
+    <div class="px-4 lg:px-6 max-w-7xl mx-auto">
+      <div class="grid md:grid-cols-4 gap-8">
+        <!-- Logo + About -->
+        <div>
+          <div class="flex items-center space-x-2 mb-4">
+            <div class="w-8 h-8 bg-gradient-to-br from-orange-400 to-orange-600 rounded-full flex items-center justify-center shadow-lg">
+              <img src="images/logo.png" alt="Logo" class="h-8 w-8 rounded-full"/>
+            </div>
+            <span class="text-xl font-bold bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">CarCafe</span>
+          </div>
+          <p class="text-gray-400 mb-4">Professional car washing and detailing services that make your vehicle shine.</p>
+          <div class="flex space-x-4 text-gray-400">
+            <a href="#" class="hover:text-orange-500 transition-colors">
+              <i class="fab fa-facebook-f text-xl"></i>
+            </a>
+            <a href="#" class="hover:text-orange-500 transition-colors">
+              <i class="fab fa-twitter text-xl"></i>
+            </a>
+            <a href="#" class="hover:text-orange-500 transition-colors">
+              <i class="fab fa-instagram text-xl"></i>
+            </a>
+          </div>
+        </div>
+  
+        <!-- Services -->
+        <div>
+          <h3 class="font-semibold mb-4">Services</h3>
+          <ul class="space-y-2 text-gray-400">
+            <li><a href="#" class="hover:text-orange-400">Basic Wash</a></li>
+            <li><a href="#" class="hover:text-orange-400">Premium Wash</a></li>
+            <li><a href="#" class="hover:text-orange-400">Deluxe Detail</a></li>
+            <li><a href="#" class="hover:text-orange-400">Fleet Service</a></li>
+          </ul>
+        </div>
+  
+        <!-- Company -->
+        <div>
+          <h3 class="font-semibold mb-4">Company</h3>
+          <ul class="space-y-2 text-gray-400">
+            <li><a href="#" class="hover:text-orange-400">About Us</a></li>
+            <li><a href="#" class="hover:text-orange-400">Careers</a></li>
+            <li><a href="#" class="hover:text-orange-400">Contact</a></li>
+            <li><a href="#" class="hover:text-orange-400">Reviews</a></li>
+          </ul>
+        </div>
+  
+        <!-- Contact -->
+        <div>
+          <h3 class="font-semibold mb-4">Contact Info</h3>
+          <div class="space-y-3 text-gray-400">
+            <div class="flex items-center space-x-2"><span>📞</span><span>(555) 123-WASH</span></div>
+            <div class="flex items-center space-x-2"><span>✉️</span><span>info@autosplash.com</span></div>
+            <div class="flex items-center space-x-2"><span>📍</span><span>123 Clean St, Wash City</span></div>
+          </div>
+        </div>
+      </div>
+  
+      <div class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
+        <p>&copy; <span id="year"></span> <a href="https://github.com/CodeByAryan" target="_blank" class="hover:text-orange-500 transition-colors">CodeByAryan</a>. All rights reserved.</p>
+         
+        </a>
+      </div>
+    </div>
+  </footer>
+  
+  <!-- JS to auto update year -->
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    // Navbar functionality
+    function toggleMenu() {
+      const nav = document.querySelector('nav');
+      const hamburger = document.querySelector('.hamburger');
+      nav.classList.toggle('active');
+      
+      // Animate hamburger to X
+      const spans = hamburger.getElementsByTagName('span');
+      if (nav.classList.contains('active')) {
+        spans[0].style.transform = 'rotate(-45deg) translate(-5px, 6px)';
+        spans[1].style.opacity = '0';
+        spans[2].style.transform = 'rotate(45deg) translate(-5px, -6px)';
+      } else {
+        spans[0].style.transform = 'none';
+        spans[1].style.opacity = '1';
+        spans[2].style.transform = 'none';
+      }
+    }
+
+    // Close menu when clicking on a link
+    document.querySelectorAll('nav a').forEach(link => {
+      link.addEventListener('click', () => {
+        document.querySelector('nav').classList.remove('active');
+        const spans = document.querySelector('.hamburger').getElementsByTagName('span');
+        spans[0].style.transform = 'none';
+        spans[1].style.opacity = '1';
+        spans[2].style.transform = 'none';
+      });
+    });
+
+    // Add scroll effect to navbar
+    window.addEventListener('scroll', () => {
+      const header = document.querySelector('header');
+      if (window.scrollY > 50) {
+        header.classList.add('scrolled');
+      } else {
+        header.classList.remove('scrolled');
+      }
+    });
+  </script>
+  
+  </body>
+  </html>

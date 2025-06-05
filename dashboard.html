@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - CarCafe</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #f97316;
+            --bg: #0f0f0f;
+            --text: #e5e7eb;
+            --sidebar-width: 250px;
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+        body {
+            background: #111827;
+            color: var(--text);
+            min-height: 100vh;
+        }
+        .dashboard-container {
+            display: flex;
+        }
+        /* Sidebar Styles */
+        .sidebar {
+            width: var(--sidebar-width);
+            background: rgba(17, 24, 39, 0.95);
+            min-height: 100vh;
+            padding: 1.5rem;
+            border-right: 1px solid rgba(255, 255, 255, 0.1);
+            position: fixed;
+        }
+        .sidebar-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 1.5rem;
+        }
+        .sidebar-logo img {
+            width: 35px;
+            height: 35px;
+        }
+        .logo-text {
+            font-size: 1.25rem;
+            font-weight: 700;
+            font-family: 'Poppins', sans-serif;
+        }
+        .logo-text span {
+            background: linear-gradient(to right, #f97316, #ea580c);
+            -webkit-background-clip: text;
+            color: transparent;
+        }
+        .sidebar-menu {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        .menu-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 1rem;
+            color: #d1d5db;
+            text-decoration: none;
+            border-radius: 0.5rem;
+            transition: all 0.3s ease;
+        }
+        .menu-item:hover, .menu-item.active {
+            background: rgba(249, 115, 22, 0.1);
+            color: var(--primary);
+        }
+        /* Main Content Styles */
+        .main-content {
+            flex: 1;
+            margin-left: var(--sidebar-width);
+            padding: 2rem;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+        .welcome-text h1 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+        .welcome-text p {
+            color: #9ca3af;
+        }
+        .profile-section {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        .notification-bell {
+            padding: 0.5rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .notification-bell:hover {
+            background: rgba(249, 115, 22, 0.1);
+            color: var(--primary);
+        }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        .stat-card {
+            background: rgba(31, 41, 55, 0.7);
+            padding: 1.5rem;
+            border-radius: 1rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .stat-card h3 {
+            color: #9ca3af;
+            font-size: 0.875rem;
+            margin-bottom: 0.5rem;
+        }
+        .stat-card .value {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        .stat-card .trend {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.875rem;
+        }
+        .trend.up {
+            color: #34d399;
+        }
+        .trend.down {
+            color: #ef4444;
+        }
+        .content-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 1.5rem;
+        }
+        .card {
+            background: rgba(31, 41, 55, 0.7);
+            border-radius: 1rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 1.5rem;
+        }
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        .card-header h2 {
+            font-size: 1.1rem;
+        }
+        .bookings-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        .booking-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            background: rgba(17, 24, 39, 0.5);
+            border-radius: 0.5rem;
+        }
+        .booking-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        .booking-status {
+            padding: 0.25rem 0.75rem;
+            border-radius: 1rem;
+            font-size: 0.875rem;
+        }
+        .status-pending {
+            background: rgba(234, 179, 8, 0.1);
+            color: #fbbf24;
+        }
+        .status-completed {
+            background: rgba(16, 185, 129, 0.1);
+            color: #34d399;
+        }
+        .services-chart {
+            height: 200px;
+            margin-top: 1rem;
+        }
+        @media (max-width: 1024px) {
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        @media (max-width: 768px) {
+            .sidebar {
+                display: none;
+            }
+            .main-content {
+                margin-left: 0;
+            }
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-logo">
+                <img src="images/logo.png" alt="CarCafe Logo">
+                <div class="logo-text">Car<span>Cafe</span></div>
+            </div>
+            <nav class="sidebar-menu">
+                <a href="#" class="menu-item active">
+                    <i class="fas fa-home"></i>
+                    Dashboard
+                </a>
+                <a href="#" class="menu-item">
+                    <i class="fas fa-calendar"></i>
+                    Bookings
+                </a>
+                <a href="#" class="menu-item">
+                    <i class="fas fa-car"></i>
+                    Services
+                </a>
+                <a href="#" class="menu-item">
+                    <i class="fas fa-users"></i>
+                    Customers
+                </a>
+                <a href="#" class="menu-item">
+                    <i class="fas fa-chart-bar"></i>
+                    Analytics
+                </a>
+                <a href="#" class="menu-item">
+                    <i class="fas fa-cog"></i>
+                    Settings
+                </a>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Header -->
+            <div class="header">
+                <div class="welcome-text">
+                    <h1>Welcome back, Admin!</h1>
+                    <p>Here's what's happening with your business today.</p>
+                </div>
+                <div class="profile-section">
+                    <div class="notification-bell">
+                        <i class="fas fa-bell"></i>
+                    </div>
+                    <div class="notification-bell">
+                        <i class="fas fa-user"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Statistics Cards -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <h3>Today's Bookings</h3>
+                    <div class="value">24</div>
+                    <div class="trend up">
+                        <i class="fas fa-arrow-up"></i>
+                        <span>12% vs last week</span>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <h3>Total Revenue</h3>
+                    <div class="value">$1,240</div>
+                    <div class="trend up">
+                        <i class="fas fa-arrow-up"></i>
+                        <span>8% vs last week</span>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <h3>Completed Services</h3>
+                    <div class="value">18</div>
+                    <div class="trend down">
+                        <i class="fas fa-arrow-down"></i>
+                        <span>3% vs last week</span>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <h3>Customer Satisfaction</h3>
+                    <div class="value">4.8/5</div>
+                    <div class="trend up">
+                        <i class="fas fa-arrow-up"></i>
+                        <span>2% vs last week</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Content Grid -->
+            <div class="content-grid">
+                <!-- Recent Bookings -->
+                <div class="card">
+                    <div class="card-header">
+                        <h2>Recent Bookings</h2>
+                        <a href="#" style="color: var(--primary); text-decoration: none;">View all</a>
+                    </div>
+                    <div class="bookings-list">
+                        <div class="booking-item">
+                            <div class="booking-info">
+                                <i class="fas fa-car"></i>
+                                <div>
+                                    <div style="font-weight: 500;">Premium Wash</div>
+                                    <div style="color: #9ca3af; font-size: 0.875rem;">John Doe • 10:00 AM</div>
+                                </div>
+                            </div>
+                            <span class="booking-status status-pending">Pending</span>
+                        </div>
+                        <div class="booking-item">
+                            <div class="booking-info">
+                                <i class="fas fa-car"></i>
+                                <div>
+                                    <div style="font-weight: 500;">Deluxe Detail</div>
+                                    <div style="color: #9ca3af; font-size: 0.875rem;">Jane Smith • 11:30 AM</div>
+                                </div>
+                            </div>
+                            <span class="booking-status status-completed">Completed</span>
+                        </div>
+                        <div class="booking-item">
+                            <div class="booking-info">
+                                <i class="fas fa-car"></i>
+                                <div>
+                                    <div style="font-weight: 500;">Basic Wash</div>
+                                    <div style="color: #9ca3af; font-size: 0.875rem;">Mike Johnson • 1:00 PM</div>
+                                </div>
+                            </div>
+                            <span class="booking-status status-pending">Pending</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Popular Services -->
+                <div class="card">
+                    <div class="card-header">
+                        <h2>Popular Services</h2>
+                        <a href="#" style="color: var(--primary); text-decoration: none;">View all</a>
+                    </div>
+                    <div class="services-chart">
+                        <!-- Add your chart here -->
+                        <div style="color: #9ca3af; text-align: center; padding-top: 2rem;">
+                            Service statistics visualization will be displayed here
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>
