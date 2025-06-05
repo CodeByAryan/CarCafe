@@ -9,7 +9,6 @@ CarCafe is a clean, responsive, and visually striking landing page designed for 
 ## 🔗 Live Demo
 
 👉 [View Live Website](https://carcafe.netlify.app/)  
-*(Replace with your Vercel or GitHub Pages link)*
 
 ---
 
